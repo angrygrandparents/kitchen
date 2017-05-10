@@ -58,9 +58,14 @@ class BodyPart(
     val bodyPos = body.getPosition
     val w = sprite.getWidth() / 2.0f
     val h = sprite.getHeight() / 2.0f
-    sprite.setPosition((bodyPos.x + spriteOffset.x) * 48 - w, (bodyPos.y + spriteOffset.y) * 48 - h)
+
+    val degrees = body.getAngle / Math.PI.toFloat * 180
+
+    val off = spriteOffset.cpy().rotate(degrees)
+
+    sprite.setPosition((bodyPos.x + off.x) * 48 - w, (bodyPos.y + off.y) * 48 - h)
     sprite.setScale(0.4f, 0.4f)
-    sprite.setRotation(body.getAngle / Math.PI.toFloat * 180)
+    sprite.setRotation(degrees)
     sprite.draw(batch)
   }
 

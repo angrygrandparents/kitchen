@@ -15,8 +15,8 @@ import game.physics.CollisionCategory
 class FightScene {
   val world = new World(new Vector2(0, -10), true)
 
-  createGround()
-  val playerA = new Player(world, 1)
+  val ground = createGround()
+  val playerA = new Player(world, 1, ground)
 
   val debugRenderer = new Box2DDebugRenderer()
 
@@ -38,7 +38,7 @@ class FightScene {
 
   }
 
-  def createGround() {
+  def createGround(): Body = {
     val groundBodyDef = new BodyDef()
 
     groundBodyDef.position.set(new Vector2(0, 0))
@@ -60,6 +60,8 @@ class FightScene {
     groundBody.createFixture(fixtureDef)
 
     groundBox.dispose()
+
+    groundBody
   }
 
   def render(batch: SpriteBatch) {
