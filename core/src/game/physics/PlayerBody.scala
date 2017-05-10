@@ -8,36 +8,50 @@ import com.badlogic.gdx.math._
 
 class PlayerBody(world: World, x: Float) {
 
+  val torsoHeight = 2.0f;
+  val legHeight = 1.0f;
+
   val torso = createTorso()
-  val head = createHead()
+  // val head = createHead()
   val leftArmUpper = createLeftArmUpper()
   val leftArmLower = createLeftArmLower()
-  val leftLeg = createLeftLeg()
 
-  val armControl = createArmControl()
+  val rightArmUpper = createRightArmUpper()
+  val rightArmLower = createRightArmLower()
+
+  val leftShoulderPivot = new Vector2(x - 0.5f, 2.4f)
+  val leftShoulderJoint = createLeftShoulderJoint()
+
+  val rightShoulderPivot = new Vector2(x + 0.5f, 2.4f)
+  val rightShoulderJoint = createRightShoulderJoint()
+
+  val leftLeg = createLeftLeg()
+  val rightLeg = createRightLeg()
 
   attachParts()
 
-  def createTorso(): Body = {
-    println("Make torso")
+  private def setBodyFixtureProperties(fixtureDef: FixtureDef) {
+    fixtureDef.density = 0.4f
+    fixtureDef.friction = 0.4f
+    fixtureDef.restitution = 0.6f
+    fixtureDef.filter.categoryBits = CollisionCategory.PLAYER_MASK;
+    fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK;
+  }
+
+  private def createTorso(): Body = {
     val bodyDef = new BodyDef()
-
-    bodyDef.position.set(x, 2);
-
+    bodyDef.allowSleep = false
+    bodyDef.position.set(x, legHeight + torsoHeight / 2);
     bodyDef.`type` = BodyType.DynamicBody
 
     val body = world.createBody(bodyDef)
 
     val shape = new PolygonShape()
-    shape.setAsBox(0.4f, 1.0f)
+    shape.setAsBox(0.8f, torsoHeight / 2)
 
     val fixtureDef = new FixtureDef()
     fixtureDef.shape = shape
-    fixtureDef.density = 0.4f
-    fixtureDef.friction = 0.4f
-    fixtureDef.restitution = 0.6f
-    fixtureDef.filter.categoryBits = CollisionCategory.PLAYER_MASK;
-    fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK;
+    setBodyFixtureProperties(fixtureDef)
 
     val fixture = body.createFixture(fixtureDef)
 
@@ -45,62 +59,11 @@ class PlayerBody(world: World, x: Float) {
     body
   }
 
-  def createHead(): Body = {
+  private def createLeftArmUpper(): Body = {
     val bodyDef = new BodyDef()
+    bodyDef.allowSleep = false
 
-    bodyDef.position.set(x, 3.5f);
-
-    bodyDef.`type` = BodyType.DynamicBody
-
-    val body = world.createBody(bodyDef)
-
-    val shape = new CircleShape()
-    shape.setRadius(0.4f);
-
-    val fixtureDef = new FixtureDef()
-    fixtureDef.shape = shape
-    fixtureDef.density = 0.4f
-    fixtureDef.friction = 0.4f
-    fixtureDef.restitution = 0.6f
-    fixtureDef.filter.categoryBits = CollisionCategory.PLAYER_MASK;
-    fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK;
-
-    val fixture = body.createFixture(fixtureDef)
-
-    shape.dispose()
-    body
-  }
-
-  def createArmControl(): Body = {
-    val bodyDef = new BodyDef()
-
-    bodyDef.position.set(x, 0);
-
-    bodyDef.`type` = BodyType.StaticBody
-
-    val body = world.createBody(bodyDef)
-
-    val shape = new CircleShape()
-    shape.setRadius(0.1f);
-
-    val fixtureDef = new FixtureDef()
-    fixtureDef.shape = shape
-    fixtureDef.density = 0.4f
-    fixtureDef.friction = 0.4f
-    fixtureDef.restitution = 0.6f
-    fixtureDef.filter.categoryBits = CollisionCategory.CONTROL_MASK;
-    fixtureDef.filter.maskBits = 0;
-
-    val fixture = body.createFixture(fixtureDef)
-
-    shape.dispose()
-    body
-  }
-
-  def createLeftArmUpper(): Body = {
-    val bodyDef = new BodyDef()
-
-    bodyDef.position.set(x, 2);
+    bodyDef.position.set(x - 0.5f, legHeight + torsoHeight / 2);
 
     bodyDef.`type` = BodyType.DynamicBody
 
@@ -111,11 +74,7 @@ class PlayerBody(world: World, x: Float) {
 
     val fixtureDef = new FixtureDef()
     fixtureDef.shape = shape
-    fixtureDef.density = 1.0f
-    fixtureDef.friction = 0.4f
-    fixtureDef.restitution = 0.6f
-    fixtureDef.filter.categoryBits = CollisionCategory.PLAYER_MASK;
-    fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK;
+    setBodyFixtureProperties(fixtureDef)
 
     val fixture = body.createFixture(fixtureDef)
 
@@ -125,7 +84,8 @@ class PlayerBody(world: World, x: Float) {
 
   def createLeftArmLower(): Body = {
     val bodyDef = new BodyDef()
-    bodyDef.position.set(x, 1);
+    bodyDef.position.set(x - 0.5f, 1);
+    bodyDef.allowSleep = false
 
     bodyDef.`type` = BodyType.DynamicBody
 
@@ -136,11 +96,52 @@ class PlayerBody(world: World, x: Float) {
 
     val fixtureDef = new FixtureDef()
     fixtureDef.shape = shape
-    fixtureDef.density = 1.0f
-    fixtureDef.friction = 0.4f
-    fixtureDef.restitution = 0.6f
-    fixtureDef.filter.categoryBits = CollisionCategory.PLAYER_MASK;
-    fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK;
+    setBodyFixtureProperties(fixtureDef)
+
+    val fixture = body.createFixture(fixtureDef)
+
+    shape.dispose()
+    body
+  }
+
+  private def createRightArmUpper(): Body = {
+    val bodyDef = new BodyDef()
+    bodyDef.allowSleep = false
+
+    bodyDef.position.set(x + 0.5f, legHeight + torsoHeight / 2);
+
+    bodyDef.`type` = BodyType.DynamicBody
+
+    val body = world.createBody(bodyDef)
+
+    val shape = new PolygonShape()
+    shape.setAsBox(0.2f, 0.5f)
+
+    val fixtureDef = new FixtureDef()
+    fixtureDef.shape = shape
+    setBodyFixtureProperties(fixtureDef)
+
+    val fixture = body.createFixture(fixtureDef)
+
+    shape.dispose()
+    body
+  }
+
+  def createRightArmLower(): Body = {
+    val bodyDef = new BodyDef()
+    bodyDef.position.set(x + 0.5f, 1);
+    bodyDef.allowSleep = false
+
+    bodyDef.`type` = BodyType.DynamicBody
+
+    val body = world.createBody(bodyDef)
+
+    val shape = new PolygonShape()
+    shape.setAsBox(0.2f, 0.5f)
+
+    val fixtureDef = new FixtureDef()
+    fixtureDef.shape = shape
+    setBodyFixtureProperties(fixtureDef)
 
     val fixture = body.createFixture(fixtureDef)
 
@@ -150,9 +151,30 @@ class PlayerBody(world: World, x: Float) {
 
   def createLeftLeg(): Body = {
     val bodyDef = new BodyDef()
-    bodyDef.position.set(x, 0.5f);
+    bodyDef.position.set(x - 0.5f, legHeight / 2);
 
     bodyDef.`type` = BodyType.StaticBody
+
+    val body = world.createBody(bodyDef)
+
+    val shape = new PolygonShape()
+    shape.setAsBox(0.2f, legHeight / 2)
+
+    val fixtureDef = new FixtureDef()
+    fixtureDef.shape = shape
+    setBodyFixtureProperties(fixtureDef)
+
+    val fixture = body.createFixture(fixtureDef)
+
+    shape.dispose()
+    body
+  }
+
+  def createRightLeg(): Body = {
+    val bodyDef = new BodyDef()
+    bodyDef.position.set(x + 0.5f, 0.5f);
+
+    bodyDef.`type` = BodyType.DynamicBody
 
     val body = world.createBody(bodyDef)
 
@@ -161,11 +183,7 @@ class PlayerBody(world: World, x: Float) {
 
     val fixtureDef = new FixtureDef()
     fixtureDef.shape = shape
-    fixtureDef.density = 1.0f
-    fixtureDef.friction = 0.4f
-    fixtureDef.restitution = 0.6f
-    fixtureDef.filter.categoryBits = CollisionCategory.PLAYER_MASK;
-    fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK;
+    setBodyFixtureProperties(fixtureDef)
 
     val fixture = body.createFixture(fixtureDef)
 
@@ -173,29 +191,59 @@ class PlayerBody(world: World, x: Float) {
     body
   }
 
+  def createLeftShoulderJoint() : Joint = {
+    val jointDef = new RevoluteJointDef()
+
+    jointDef.initialize(torso, leftArmUpper, leftShoulderPivot)
+    jointDef.enableMotor = true
+    jointDef.motorSpeed = -1.0f
+    jointDef.maxMotorTorque = 2.0f
+
+    return world.createJoint(jointDef)
+  }
+
+  def createRightShoulderJoint() : Joint = {
+    val jointDef = new RevoluteJointDef()
+
+    jointDef.initialize(torso, rightArmUpper, rightShoulderPivot)
+    jointDef.enableMotor = true
+    jointDef.motorSpeed = 1.0f
+    jointDef.maxMotorTorque = 2.0f
+
+    return world.createJoint(jointDef)
+  }
+
   def attachParts() {
     val elbowDef = new RevoluteJointDef()
 
-    elbowDef.initialize(leftArmUpper, leftArmLower, new Vector2(x, 1.5f))
-    elbowDef.enableLimit
-    elbowDef.lowerAngle = -0.5f * Math.PI.toFloat
-    elbowDef.upperAngle = 0.5f * Math.PI.toFloat
+    elbowDef.initialize(leftArmUpper, leftArmLower, new Vector2(x - 0.5f, 1.5f))
+    elbowDef.enableLimit = true
+    elbowDef.lowerAngle = -0.8f * Math.PI.toFloat
+    elbowDef.upperAngle = 0.1f * Math.PI.toFloat
 
-    val shoulderDef = new RevoluteJointDef()
+    val rightElbowDef = new RevoluteJointDef()
 
-    shoulderDef.initialize(torso, leftArmUpper, new Vector2(x, 2.4f))
+    rightElbowDef.initialize(rightArmUpper, rightArmLower, new Vector2(x + 0.5f, 1.5f))
+    rightElbowDef.enableLimit = true
+    rightElbowDef.lowerAngle = -0.8f * Math.PI.toFloat
+    rightElbowDef.upperAngle = 0.1f * Math.PI.toFloat
 
+    val pelvisJointLeftDef = new RevoluteJointDef()
+    pelvisJointLeftDef.initialize(leftLeg, torso, new Vector2(x - 0.5f, 1.0f))
+    pelvisJointLeftDef.lowerAngle = -0.3f * Math.PI.toFloat
+    pelvisJointLeftDef.upperAngle = 0.3f * Math.PI.toFloat
+    pelvisJointLeftDef.enableLimit = true
 
-    val pelvisJointDef = new RevoluteJointDef()
-    pelvisJointDef.initialize(leftLeg, torso, new Vector2(x, 1.0f))
+    val pelvisJointRightDef = new RevoluteJointDef()
+    pelvisJointRightDef.initialize(rightLeg, torso, new Vector2(x + 0.5f, 1.0f))
+    pelvisJointRightDef.lowerAngle = -0.3f * Math.PI.toFloat
+    pelvisJointRightDef.upperAngle = 0.3f * Math.PI.toFloat
+    pelvisJointRightDef.enableLimit = true
 
-    val neckJointDef = new RevoluteJointDef()
-    neckJointDef.initialize(torso, head, new Vector2(x, 3.0f))
-
-    world.createJoint(shoulderDef)
     world.createJoint(elbowDef)
-    world.createJoint(pelvisJointDef)
-    world.createJoint(neckJointDef)
+    world.createJoint(rightElbowDef)
+    world.createJoint(pelvisJointLeftDef)
+    world.createJoint(pelvisJointRightDef)
   }
 
 }
