@@ -1,0 +1,69 @@
+
+grandma.png
+size: 512,512
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+LowerArm-L
+  rotate: false
+  xy: 2, 9
+  size: 134, 25
+  orig: 134, 25
+  offset: 0, 0
+  index: -1
+LowerArm-R
+  rotate: false
+  xy: 318, 204
+  size: 133, 26
+  orig: 133, 26
+  offset: 0, 0
+  index: -1
+UpperArm-L
+  rotate: false
+  xy: 2, 64
+  size: 143, 24
+  orig: 143, 24
+  offset: 0, 0
+  index: -1
+UpperArm-R
+  rotate: false
+  xy: 2, 36
+  size: 140, 26
+  orig: 140, 26
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 90
+  size: 222, 400
+  orig: 222, 400
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 226, 232
+  size: 214, 258
+  orig: 214, 258
+  offset: 0, 0
+  index: -1
+leg_L
+  rotate: false
+  xy: 442, 287
+  size: 57, 203
+  orig: 57, 203
+  offset: 0, 0
+  index: -1
+leg_R
+  rotate: false
+  xy: 226, 27
+  size: 57, 203
+  orig: 57, 203
+  offset: 0, 0
+  index: -1
+stick
+  rotate: false
+  xy: 285, 2
+  size: 31, 228
+  orig: 31, 228
+  offset: 0, 0
+  index: -1
