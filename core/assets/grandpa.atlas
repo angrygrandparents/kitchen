@@ -1,0 +1,69 @@
+
+grandpa.png
+size: 512,512
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+LowerArm-R
+  rotate: false
+  xy: 2, 29
+  size: 133, 27
+  orig: 133, 27
+  offset: 0, 0
+  index: -1
+LowerArm-L
+  rotate: false
+  xy: 2, 2
+  size: 133, 25
+  orig: 133, 25
+  offset: 0, 0
+  index: -1
+UpperArm-R
+  rotate: false
+  xy: 2, 58
+  size: 140, 23
+  orig: 140, 23
+  offset: 0, 0
+  index: -1
+UpperArm-L
+  rotate: false
+  xy: 2, 83
+  size: 142, 26
+  orig: 142, 26
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 111
+  size: 218, 363
+  orig: 218, 363
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 222, 289
+  size: 221, 185
+  orig: 221, 185
+  offset: 0, 0
+  index: -1
+leg_R
+  rotate: false
+  xy: 445, 271
+  size: 57, 203
+  orig: 57, 203
+  offset: 0, 0
+  index: -1
+leg_L
+  rotate: false
+  xy: 222, 84
+  size: 57, 203
+  orig: 57, 203
+  offset: 0, 0
+  index: -1
+stick
+  rotate: false
+  xy: 281, 59
+  size: 31, 228
+  orig: 31, 228
+  offset: 0, 0
+  index: -1

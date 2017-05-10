@@ -17,6 +17,7 @@ class FightScene {
 
   val ground = createGround()
   val playerA = new Player(world, 1, ground)
+  val playerB = new Player(world, 2, ground)
 
   val debugRenderer = new Box2DDebugRenderer()
 
@@ -24,6 +25,7 @@ class FightScene {
 
   def update(delta: Float) {
     playerA.update()
+    playerB.update()
     world.step(delta, 6, 2)
     val frameTime = Math.min(delta, 0.25f)
     accumulator += frameTime
@@ -66,6 +68,7 @@ class FightScene {
 
   def render(batch: SpriteBatch) {
     playerA.render(batch)
+    playerB.render(batch)
   }
 
   def renderDebug(camera: Camera) {
