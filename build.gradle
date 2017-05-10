@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath "com.badlogicgames.gdx:gdx-tools:1.9.5"
     }
 }
 
@@ -51,24 +52,6 @@ project(":desktop") {
     }
 }
 
-project(":html") {
-    apply plugin: "gwt"
-    apply plugin: "war"
-
-
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion:sources"
-    }
-}
-
 project(":core") {
     apply plugin: "java"
     apply plugin: "scala"
@@ -85,4 +68,27 @@ project(":core") {
 
 tasks.eclipse.doLast {
     delete ".project"
+}
+
+tasks.withType(ScalaCompile) {
+    configure(scalaCompileOptions.forkOptions) {
+        memoryMaximumSize = '1g'
+        jvmArgs = ['-XX:MaxPermSize=512m']
+    }
+}
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = false
+}
+// Store the parameters you want to pass the texturePacker here...
+project.ext.texturePacker = [ "assets/character/grandma/", "core/assets/", "grandma" ]
+
+// Import the texture packer
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+
+// Add a new task that packs the textures for you
+task texturePacker << {
+  if (project.ext.has('texturePacker')) {
+    logger.info "Calling TexturePacker: "+texturePacker
+    TexturePacker.process(texturePacker[0], texturePacker[1], texturePacker[2])
+  }
 }
