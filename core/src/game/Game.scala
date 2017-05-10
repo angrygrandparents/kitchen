@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 
-
 import game.scene.FightScene
 
 
@@ -38,8 +37,11 @@ class Game extends ApplicationAdapter with InputProcessor {
     cam
   }
 
-	override def create() : Unit = {
+	lazy val bgm = Gdx.audio.newMusic(Gdx.files.internal("bgm-twist.mp3"))
 
+	override def create() : Unit = {
+		bgm.setLooping(true)
+		bgm.play()
 	}
 
 	lazy val atlas = new TextureAtlas(Gdx.files.internal("grandma.atlas"));
@@ -80,6 +82,7 @@ class Game extends ApplicationAdapter with InputProcessor {
 	}
 
 	override def dispose () : Unit = {
+		bgm.dispose()
 		img.dispose()
 	}
   override def mouseMoved(screenX: Int, screenY: Int): Boolean = false
