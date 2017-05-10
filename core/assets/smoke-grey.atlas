@@ -1,0 +1,81 @@
+
+smoke-grey.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+smoke-grey-01
+  rotate: false
+  xy: 2, 362
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-grey-02
+  rotate: false
+  xy: 2, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-grey-03
+  rotate: false
+  xy: 510, 362
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-grey-04
+  rotate: false
+  xy: 510, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+
+smoke-grey2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+smoke-grey-05
+  rotate: false
+  xy: 2, 362
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-grey-06
+  rotate: false
+  xy: 2, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-grey-07
+  rotate: false
+  xy: 510, 362
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-grey-08
+  rotate: false
+  xy: 510, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+
+smoke-grey3.png
+size: 512,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+smoke-grey-09
+  rotate: false
+  xy: 2, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1

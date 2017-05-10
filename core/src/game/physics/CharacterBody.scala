@@ -45,6 +45,24 @@ class CharacterBody(world: World) {
     joints(jointId) = world.createJoint(jointDef).asInstanceOf[RevoluteJoint]
   }
 
+  def getBodyPart(id: String) : BodyPart = {
+    parts(id)
+  }
+
+  def removeJoint(id: String) : Unit = {
+    val joint = joints(id)
+    joints -= id
+
+    world.destroyJoint(joint)
+  }
+
+  def removeBodyPart(id: String) : BodyPart = {
+    val part = parts(id)
+    parts -= id
+
+    part
+  }
+
   def setAngleTarget(jointId: String, angleTarget: Float, maxTorque: Float = 4.0f, gain: Float = 2.0f) : Unit = {
     var joint = joints(jointId)
 

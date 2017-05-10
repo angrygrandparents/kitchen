@@ -8,18 +8,27 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
 class BodyPart(
+    isGrandma: Boolean,
     atlas: TextureAtlas,
     spriteId: String,
     world: World,
     position: Vector2,
     dimensions: Vector2,
     spriteOffset: Vector2 = new Vector2(0, 0),
-    val drawOrder: Int = 0
+    val drawOrder: Int = 0,
+    density: Float = 0.4f,
+    isCollider: Boolean = true,
+    isItem: Boolean = false,
+    colliderId: String = ""
   ) {
 
   val body = {
     val bodyDef = new BodyDef()
-    bodyDef.allowSleep = false
+    if (isItem) {
+      bodyDef.allowSleep = true
+    } else {
+      bodyDef.allowSleep = false
+    }
     bodyDef.position.set(position)
     bodyDef.`type` = BodyType.DynamicBody
 
@@ -31,13 +40,29 @@ class BodyPart(
     val fixtureDef = new FixtureDef()
     fixtureDef.shape = shape
 
-    fixtureDef.density = 0.4f
+    fixtureDef.density = density
     fixtureDef.friction = 0.4f
     fixtureDef.restitution = 0.6f
-    fixtureDef.filter.categoryBits = CollisionCategory.PLAYER_MASK;
-    fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK;
-
+    if (isGrandma) {
+      fixtureDef.filter.categoryBits = CollisionCategory.GRANDMA;
+      if (isCollider) {
+        fixtureDef.filter.maskBits = (CollisionCategory.STATIC_MASK + CollisionCategory.GRANDPA).toShort;
+      } else {
+        fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK
+      }
+    } else {
+      fixtureDef.filter.categoryBits = CollisionCategory.GRANDPA;
+      if (isCollider) {
+        fixtureDef.filter.maskBits = (CollisionCategory.STATIC_MASK + CollisionCategory.GRANDMA).toShort;
+      } else {
+        fixtureDef.filter.maskBits = CollisionCategory.STATIC_MASK
+      }
+    }
     body.createFixture(fixtureDef)
+
+    if (isItem) {
+      body.setUserData(CollisionData(true))
+    }
 
     shape.dispose()
     body

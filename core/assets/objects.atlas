@@ -1,0 +1,62 @@
+
+objects.png
+size: 1024,512
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+objects-01
+  rotate: false
+  xy: 402, 246
+  size: 336, 71
+  orig: 336, 71
+  offset: 0, 0
+  index: -1
+objects-02
+  rotate: false
+  xy: 2, 63
+  size: 327, 129
+  orig: 327, 129
+  offset: 0, 0
+  index: -1
+objects-03
+  rotate: false
+  xy: 861, 363
+  size: 135, 119
+  orig: 135, 119
+  offset: 0, 0
+  index: -1
+objects-04
+  rotate: false
+  xy: 402, 117
+  size: 223, 127
+  orig: 223, 127
+  offset: 0, 0
+  index: -1
+objects-05
+  rotate: false
+  xy: 331, 2
+  size: 195, 113
+  orig: 195, 113
+  offset: 0, 0
+  index: -1
+objects-06
+  rotate: false
+  xy: 402, 319
+  size: 457, 163
+  orig: 457, 163
+  offset: 0, 0
+  index: -1
+objects-07
+  rotate: false
+  xy: 627, 23
+  size: 210, 221
+  orig: 210, 221
+  offset: 0, 0
+  index: -1
+objects-08
+  rotate: false
+  xy: 2, 194
+  size: 398, 288
+  orig: 398, 288
+  offset: 0, 0
+  index: -1

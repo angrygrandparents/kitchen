@@ -1,0 +1,81 @@
+
+smoke-pink.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+smoke-pink-01
+  rotate: false
+  xy: 2, 362
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-pink-02
+  rotate: false
+  xy: 2, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-pink-03
+  rotate: false
+  xy: 510, 362
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-pink-04
+  rotate: false
+  xy: 510, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+
+smoke-pink2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+smoke-pink-05
+  rotate: false
+  xy: 2, 362
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-pink-06
+  rotate: false
+  xy: 2, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-pink-07
+  rotate: false
+  xy: 510, 362
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+smoke-pink-08
+  rotate: false
+  xy: 510, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
+
+smoke-pink3.png
+size: 512,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+smoke-pink-09
+  rotate: false
+  xy: 2, 2
+  size: 506, 358
+  orig: 506, 358
+  offset: 0, 0
+  index: -1
