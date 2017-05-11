@@ -3,6 +3,7 @@ package game
 import com.badlogic.gdx.Gdx
 
 object Audio {
+  val BGM_MENU = Gdx.audio.newMusic(Gdx.files.internal("sound/bgm-menu.mp3"))
   val BGM = Gdx.audio.newMusic(Gdx.files.internal("sound/bgm-twist.mp3"))
   val GRANDPA_HIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-grandpa.wav"))
   val GRANDMA_HIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-grandma.wav"))
@@ -18,6 +19,7 @@ object Audio {
 
   // I wish I could just foreach these
   def disposeAll() = {
+    BGM_MENU.dispose()
     BGM.dispose()
     GRANDPA_HIT.dispose()
     GRANDMA_HIT.dispose()

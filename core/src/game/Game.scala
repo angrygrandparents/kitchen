@@ -33,7 +33,8 @@ class Game extends ApplicationAdapter with InputProcessor {
   }
 
 	override def create() : Unit = {
-
+    Audio.BGM_MENU.setLooping(true)
+    Audio.BGM_MENU.play()
 	}
 
 	override def render() : Unit = {
@@ -53,6 +54,7 @@ class Game extends ApplicationAdapter with InputProcessor {
 			gameStarted = true
 			fightScene.dispose()
 			fightScene = new FightScene()
+      Audio.BGM_MENU.stop()
 			mainMenuScene.state = 0
 		}
 
@@ -61,6 +63,8 @@ class Game extends ApplicationAdapter with InputProcessor {
 			fightScene.update(1/60.0f, camera)
 			if (fightScene.goToMenu) {
 				gameStarted = false
+        Audio.BGM_MENU.setLooping(true)
+        Audio.BGM_MENU.play()
 			}
 		} else {
 			mainMenuScene.update(1/60.0f, camera)
