@@ -17,6 +17,8 @@ class Button(atlas: TextureAtlas, id: String, position: Vector2) {
 
   var clicked = false
 
+  var touched = true
+
   def getMousePosInGameWorld(camera: Camera): Vector3 = {
     camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
   }

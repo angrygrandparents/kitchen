@@ -67,10 +67,6 @@ class MainMenuScene {
   }
 
   def update(delta: Float, camera: Camera) {
-    playButton.update(delta, camera)
-    tutorialButton.update(delta, camera)
-    creditsButton.update(delta, camera)
-    exitButton.update(delta, camera)
     if (state == 2 || state == 3) {
       tutorialBackButton.update(delta, camera)
       if (tutorialBackButton.clicked) {
@@ -78,6 +74,10 @@ class MainMenuScene {
         tutorialBackButton.clicked = false
       }
     } else {
+      playButton.update(delta, camera)
+      tutorialButton.update(delta, camera)
+      creditsButton.update(delta, camera)
+      exitButton.update(delta, camera)
       if (playButton.clicked) {
         state = 1
         playButton.clicked = false

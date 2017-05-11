@@ -160,7 +160,7 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
       }
     }
 
-    if (health < 0) {
+    if (health <= 0) {
       isInHitstun = true
     }
 
