@@ -11,24 +11,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 
-
 import game.scene.FightScene
-
+import game.scene.MainMenuScene
 
 class Game extends ApplicationAdapter with InputProcessor {
-	lazy val img = {
-    val t = new Texture(Gdx.files.internal("background-01.png"), true)
-    t.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest)
-    t
-  }
-
   lazy val fightScene = new FightScene()
+  lazy val mainMenuScene = new MainMenuScene()
+
+	var gameStarted = false
 
   lazy val camera = {
     val w = Gdx.graphics.getWidth()
     val h = Gdx.graphics.getHeight()
-
-    println("w: " + w + " h: " + h)
 
     val cam = new OrthographicCamera(10, 10 * (h / w.toFloat))
 
@@ -42,45 +36,56 @@ class Game extends ApplicationAdapter with InputProcessor {
 
 	}
 
-	lazy val atlas = new TextureAtlas(Gdx.files.internal("grandma.atlas"));
-  lazy val headSpirte = atlas.createSprite("head")
-  lazy val bodySprite = atlas.createSprite("body")
-
 	override def render() : Unit = {
-    fightScene.update(1/60.0f)
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1)
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-
 		val w = Gdx.graphics.getWidth()
-    val h = Gdx.graphics.getHeight()
+		val h = Gdx.graphics.getHeight()
 
 		val ratio = w / h.toFloat;
 
-    val batch = new SpriteBatch()
+		val batch = new SpriteBatch()
 		batch.setProjectionMatrix(new Matrix4().setToOrtho2D(-240 * ratio, 0, 480 * ratio, 480));
 
 		camera.setToOrtho(false, 10 * (w / h.toFloat), 10)
 		camera.position.set(0, camera.viewportHeight / 2f, 0);
 		camera.update()
 
+		if (mainMenuScene.state == 1) {
+			gameStarted = true
+			mainMenuScene.state = 0
+		}
+
+
+		if (gameStarted) {
+			fightScene.update(1/60.0f)
+		} else {
+			mainMenuScene.update(1/60.0f, camera)
+		}
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1)
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
     batch.begin()
 
-    val width = 480 * 8/4.5f;
-
-    batch.draw(img, -(width - 480 * ratio) / 2 - 240 * ratio, 0, width, 480, 0, 1, 1, 0)
-
-    fightScene.render(batch)
+		if (gameStarted) {
+			fightScene.render(batch)
+		} else {
+			mainMenuScene.render(batch)
+		}
 
 		batch.end()
 
+		// camera.setToOrtho(false, 10 * (w / h.toFloat), 10)
+		// camera.position.set(0, camera.viewportHeight / 2f, 0);
+		// camera.update()
 	  // fightScene.renderDebug(camera)
 
     batch.dispose()
 	}
 
-	override def dispose () : Unit = {
-		img.dispose()
+	override def dispose() : Unit = {
+		fightScene.dispose()
+		mainMenuScene.dispose()
 	}
+
   override def mouseMoved(screenX: Int, screenY: Int): Boolean = false
 
 

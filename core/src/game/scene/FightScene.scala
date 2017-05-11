@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.Texture.TextureFilter
+
 
 import game.Constant
 import game.physics.Player
@@ -191,6 +194,12 @@ class FightScene {
 
   private var accumulator = 0.0f
 
+  lazy val background = {
+    val t = new Texture(Gdx.files.internal("background-01.png"), true)
+    t.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest)
+    t
+  }
+
   def playGrandmaIsHitSound(isCritical: Boolean) {
     // TODO
   }
@@ -338,6 +347,14 @@ class FightScene {
   }
 
   def render(batch: SpriteBatch) {
+    val w = Gdx.graphics.getWidth()
+    val h = Gdx.graphics.getHeight()
+		val ratio = w / h.toFloat;
+    val width = 480 * 8/4.5f;
+
+    batch.draw(background, -(width - 480 * ratio) / 2 - 240 * ratio, 0, width, 480, 0, 1, 1, 0)
+
+
     playerA.render(batch)
     playerB.render(batch)
 
@@ -352,6 +369,10 @@ class FightScene {
     grandmaLifebar.render(batch, playerA.health)
     grandpaLifebar.render(batch, playerB.health)
   }
+
+  def dispose() : Unit = {
+		background.dispose()
+	}
 
   def renderDebug(camera: Camera) {
     debugRenderer.render(world, camera.combined)

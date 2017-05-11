@@ -1,0 +1,27 @@
+
+tutorial.png
+size: 1024,256
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+back-click
+  rotate: false
+  xy: 2, 105
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+back-normal
+  rotate: false
+  xy: 2, 2
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+back-select
+  rotate: false
+  xy: 384, 105
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
