@@ -1,0 +1,90 @@
+
+menu.png
+size: 1024,1024
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+credits-click
+  rotate: false
+  xy: 2, 620
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+credits-normal
+  rotate: false
+  xy: 2, 517
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+credits-select
+  rotate: false
+  xy: 384, 620
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+exit-click
+  rotate: false
+  xy: 2, 414
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+exit-normal
+  rotate: false
+  xy: 384, 517
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+exit-select
+  rotate: false
+  xy: 2, 311
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+play-click
+  rotate: false
+  xy: 384, 414
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+play-normal
+  rotate: false
+  xy: 2, 208
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+play-select
+  rotate: false
+  xy: 384, 311
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+tutorial-click
+  rotate: false
+  xy: 2, 105
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+tutorial-normal
+  rotate: false
+  xy: 384, 208
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1
+tutorial-select
+  rotate: false
+  xy: 2, 2
+  size: 380, 101
+  orig: 380, 101
+  offset: 0, 0
+  index: -1

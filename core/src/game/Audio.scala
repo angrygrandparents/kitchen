@@ -13,6 +13,8 @@ object Audio {
   val GRANDMA_THROW = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandma.wav"))
   val THROW = Gdx.audio.newMusic(Gdx.files.internal("sound/woosh.wav"))
   val VICTORY = Gdx.audio.newMusic(Gdx.files.internal("sound/trumpet.wav"))
+  val CLICK = Gdx.audio.newMusic(Gdx.files.internal("sound/btn-click.wav"))
+  val HOVER = Gdx.audio.newMusic(Gdx.files.internal("sound/btn-hover.wav"))
 
   // I wish I could just foreach these
   def disposeAll() = {
@@ -26,5 +28,7 @@ object Audio {
     GRANDMA_THROW.dispose()
     THROW.dispose()
     VICTORY.dispose()
+    CLICK.dispose()
+    HOVER.dispose()
   }
 }
