@@ -169,6 +169,10 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
       }
     }
 
+    if (health < 0) {
+      isInHitstun = true
+    }
+
     if (isInHitstun) {
       if (hitstunTimer < 0.1f) {
         body.setAngleTarget("ground", sign * Math.PI.toFloat / 2, 40.0f, 10.0f)
