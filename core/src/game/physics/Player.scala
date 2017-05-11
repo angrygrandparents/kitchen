@@ -101,6 +101,10 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
   var holding = false
   var prepThrow = false
 
+  val grandmaThrowSound = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandma.wav"))
+  val grandpaThrowSound = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandpa.wav"))
+  val throwSound = Gdx.audio.newMusic(Gdx.files.internal("sound/woosh.wav"))
+
   def grabItem() : BodyPart = {
     val lowerArm = body.getBodyPart("leftLowerArm")
     val pos = lowerArm.body.getPosition()
@@ -117,11 +121,16 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
     part
   }
 
-  def releaseItem(items: ArrayBuffer[BodyPart]) : Unit = {
+    def releaseItem(items: ArrayBuffer[BodyPart]) : Unit = {
     body.removeJoint("item")
     holding = false
     prepThrow = false
-
+    if (isGrandma) {
+      grandmaThrowSound.play()
+    } else {
+      grandpaThrowSound.play()
+    }
+    throwSound.play()
     val item = body.removeBodyPart("item")
     items += item
   }
