@@ -30,6 +30,10 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
 
   val isGrandma = playerNumber == 1
 
+  val MAX_HITSTUN = 1.2f
+
+  var hitstunTimer = 0.0f
+  var isInHitstun = false
 
   val sign = if (playerNumber == 1) 1.0f else -1.0f
 
@@ -40,9 +44,9 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
 
     val head = {
       if (playerNumber == 1) {
-        new BodyPart(isGrandma, atlas, ("head"), world, new Vector2(sign * 0.1f, 4.9f), new Vector2(0.7f, 0.5f), new Vector2(sign * -0.1f, 0.4f))
+        new BodyPart(isGrandma, atlas, ("head"), world, new Vector2(sign * 0.1f, 4.9f), new Vector2(0.5f, 0.4f), new Vector2(sign * -0.1f, 0.4f))
       } else {
-        new BodyPart(isGrandma, atlas, ("head"), world, new Vector2(sign * 0.1f, 4.9f), new Vector2(0.7f, 0.5f), new Vector2(-0.1f, -0.1f))
+        new BodyPart(isGrandma, atlas, ("head"), world, new Vector2(sign * 0.1f, 4.9f), new Vector2(0.5f, 0.4f), new Vector2(-0.1f, -0.1f))
       }
     }
 
@@ -101,6 +105,8 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
   var holding = false
   var prepThrow = false
 
+  var health = 10.0f
+
   def grabItem() : BodyPart = {
     val lowerArm = body.getBodyPart("leftLowerArm")
     val pos = lowerArm.body.getPosition()
@@ -126,7 +132,15 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
     items += item
   }
 
-  def update(items: ArrayBuffer[BodyPart]) : Unit = {
+  def takeDamage(amount: Float) : Unit = {
+    if (amount > 1.0f && !isInHitstun) {
+      isInHitstun = true
+      hitstunTimer = 0.0f
+    }
+    health -= amount
+  }
+
+  def update(delta: Float, items: ArrayBuffer[BodyPart]) : Unit = {
     body.setAngleTarget("neck", 0, 80.0f)
     body.setAngleTarget("ground", 0, 40.0f)
     body.setAngleTarget("leftElbow", sign * Math.PI.toFloat / 6)
@@ -139,76 +153,97 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
     body.setAngleTarget("leftHip", 0, 30.0f)
     body.setAngleTarget("rightHip", 0, 0.8f)
 
-    val moveCaneUp = if (playerNumber == 1) {
-      Gdx.input.isKeyPressed(Keys.W)
-    } else {
-      Gdx.input.isKeyPressed(Keys.UP)
-    }
-
-    val moveCaneDown = if (playerNumber == 1) {
-      Gdx.input.isKeyPressed(Keys.S)
-    } else {
-      Gdx.input.isKeyPressed(Keys.DOWN)
-    }
-
-    val leanBack = if (playerNumber == 1) {
-      Gdx.input.isKeyPressed(Keys.A)
-    } else {
-      Gdx.input.isKeyPressed(Keys.RIGHT)
-    }
-
-    val leanForward = if (playerNumber == 1) {
-      Gdx.input.isKeyPressed(Keys.D)
-    } else {
-      Gdx.input.isKeyPressed(Keys.LEFT)
-    }
-
-
-    if (leanBack) {
-      prepThrow = false
-      if (!holding) {
-        holding = true
-        grabItem()
+    if (isInHitstun) {
+      hitstunTimer += delta
+      if (hitstunTimer > MAX_HITSTUN) {
+        isInHitstun = false
       }
-      body.setAngleTarget("leftShoulder", sign * Math.PI.toFloat / 8, 8.0f)
-      body.setAngleTarget("leftElbow", sign * -Math.PI.toFloat / 4)
-      body.setAngleTarget("leftHip", sign * Math.PI.toFloat / 5, 30.0f)
-      body.setAngleTarget("rightHip", sign * -Math.PI.toFloat / 3, 3.0f)
+    }
 
-      body.setAngleTarget("rightShoulder", sign * Math.PI.toFloat / 3)
+    if (isInHitstun) {
+      if (hitstunTimer < 0.1f) {
+        body.setAngleTarget("ground", sign * Math.PI.toFloat / 2, 40.0f, 10.0f)
+        body.setAngleTarget("leftHip", sign * Math.PI.toFloat / 3, 10.0f, 4.0f)
+      } else {
+        body.relaxJoint("ground")
+        body.relaxJoint("leftHip")
+      }
+      body.setAngleTarget("neck", sign * -Math.PI.toFloat / 12, 80.0f)
+      body.relaxJoint("rightHip")
+      body.relaxJoint("ground")
+    } else {
 
-      body.setAngleTarget("cane", sign * -Math.PI.toFloat / 4, 20.0f)
+      val moveCaneUp = if (playerNumber == 1) {
+        Gdx.input.isKeyPressed(Keys.W)
+      } else {
+        Gdx.input.isKeyPressed(Keys.UP)
+      }
 
-    } else if (leanForward) {
+      val moveCaneDown = if (playerNumber == 1) {
+        Gdx.input.isKeyPressed(Keys.S)
+      } else {
+        Gdx.input.isKeyPressed(Keys.DOWN)
+      }
+
+      val leanBack = if (playerNumber == 1) {
+        Gdx.input.isKeyPressed(Keys.A)
+      } else {
+        Gdx.input.isKeyPressed(Keys.RIGHT)
+      }
+
+      val leanForward = if (playerNumber == 1) {
+        Gdx.input.isKeyPressed(Keys.D)
+      } else {
+        Gdx.input.isKeyPressed(Keys.LEFT)
+      }
+
+
+      if (leanBack) {
+        prepThrow = false
+        if (!holding) {
+          holding = true
+          grabItem()
+        }
+        body.setAngleTarget("leftShoulder", sign * Math.PI.toFloat / 8, 8.0f)
+        body.setAngleTarget("leftElbow", sign * -Math.PI.toFloat / 4)
+        body.setAngleTarget("leftHip", sign * Math.PI.toFloat / 5, 30.0f)
+        body.setAngleTarget("rightHip", sign * -Math.PI.toFloat / 3, 3.0f)
+
+        body.setAngleTarget("rightShoulder", sign * Math.PI.toFloat / 3)
+
+        body.setAngleTarget("cane", sign * -Math.PI.toFloat / 4, 20.0f)
+
+      } else if (leanForward) {
+        if (holding) {
+          prepThrow = true
+        }
+        body.setAngleTarget("leftShoulder", sign * Math.PI.toFloat, 6.0f, 2.0f)
+        body.setAngleTarget("leftElbow", 0, 3.0f)
+        body.setAngleTarget("leftHip", sign * Math.PI.toFloat / 6, 30.0f, 8.0f)
+        body.setAngleTarget("rightHip", sign * 0, 20.0f)
+        body.setAngleTarget("ground", sign * Math.PI.toFloat / 6, 50.0f)
+
+        body.setAngleTarget("rightShoulder", sign * Math.PI.toFloat / 3, 20.0f)
+
+      }
+
+      if (moveCaneUp) {
+        body.setAngleTarget("rightShoulder", sign * -Math.PI.toFloat / 3, 10.0f)
+        body.setAngleTarget("cane", sign * -Math.PI.toFloat / 3, 2.0f)
+      }
+
       if (holding) {
-        prepThrow = true
+        val lowerArm = body.getBodyPart("leftLowerArm")
+        val angle = lowerArm.body.getAngle()
+        if (leanForward)
+          body.setAngleTarget("item", angle - Math.PI.toFloat/2, 10.0f, 1.0f)
+        else {
+          body.relaxJoint("item")
+        }
       }
-      body.setAngleTarget("leftShoulder", sign * Math.PI.toFloat, 6.0f, 2.0f)
-      body.setAngleTarget("leftElbow", 0, 3.0f)
-      body.setAngleTarget("leftHip", sign * Math.PI.toFloat / 6, 30.0f, 8.0f)
-      body.setAngleTarget("rightHip", sign * 0, 20.0f)
-      body.setAngleTarget("ground", sign * Math.PI.toFloat / 6, 50.0f)
-
-      body.setAngleTarget("rightShoulder", sign * Math.PI.toFloat / 3, 20.0f)
-
-    }
-
-    if (moveCaneUp) {
-      body.setAngleTarget("rightShoulder", sign * -Math.PI.toFloat / 3, 10.0f)
-      body.setAngleTarget("cane", sign * -Math.PI.toFloat / 3, 2.0f)
-    }
-
-    if (holding) {
-      val lowerArm = body.getBodyPart("leftLowerArm")
-      val angle = lowerArm.body.getAngle()
-      if (leanForward)
-        body.setAngleTarget("item", angle - Math.PI.toFloat/2, 10.0f, 1.0f)
-      else {
-        body.relaxJoint("item")
+      if (prepThrow && !leanForward) {
+        releaseItem(items)
       }
-    }
-    if (prepThrow && !leanForward) {
-      releaseItem(items)
     }
 
   }

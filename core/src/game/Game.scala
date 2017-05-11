@@ -75,7 +75,6 @@ class Game extends ApplicationAdapter with InputProcessor {
 
 	  // fightScene.renderDebug(camera)
 
-
     batch.dispose()
 	}
 

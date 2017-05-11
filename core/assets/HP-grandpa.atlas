@@ -1,0 +1,90 @@
+
+HP-grandpa.png
+size: 1024,128
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+HP-01
+  rotate: false
+  xy: 2, 14
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-02
+  rotate: false
+  xy: 516, 72
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-03
+  rotate: false
+  xy: 41, 14
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-04
+  rotate: false
+  xy: 516, 32
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-05
+  rotate: false
+  xy: 555, 72
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-06
+  rotate: false
+  xy: 80, 14
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-07
+  rotate: false
+  xy: 555, 32
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-08
+  rotate: false
+  xy: 594, 72
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-09
+  rotate: false
+  xy: 119, 14
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-10
+  rotate: false
+  xy: 594, 32
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+grandpa-icon
+  rotate: false
+  xy: 389, 2
+  size: 125, 108
+  orig: 125, 108
+  offset: 0, 0
+  index: -1
+lifebar-background
+  rotate: false
+  xy: 2, 54
+  size: 385, 56
+  orig: 385, 56
+  offset: 0, 0
+  index: -1
