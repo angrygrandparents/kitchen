@@ -60,8 +60,12 @@ class BodyPart(
     }
     body.createFixture(fixtureDef)
 
-    if (isItem) {
-      body.setUserData(CollisionData(true))
+    if (spriteId != "stick") {
+      if (isItem) {
+        body.setUserData(CollisionData(true))
+      } else {
+        body.setUserData(CollisionData(false, isGrandma, spriteId == "head"))
+      }
     }
 
     shape.dispose()

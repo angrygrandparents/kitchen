@@ -37,7 +37,7 @@ class Game extends ApplicationAdapter with InputProcessor {
     cam
   }
 
-	lazy val bgm = Gdx.audio.newMusic(Gdx.files.internal("bgm-twist.mp3"))
+	lazy val bgm = Gdx.audio.newMusic(Gdx.files.internal("sound/bgm-twist.mp3"))
 
 	override def create() : Unit = {
 		bgm.setLooping(true)
@@ -75,7 +75,7 @@ class Game extends ApplicationAdapter with InputProcessor {
 
 		batch.end()
 
-	  fightScene.renderDebug(camera)
+	  // fightScene.renderDebug(camera)
 
 
     batch.dispose()
