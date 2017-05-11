@@ -9,6 +9,7 @@ import com.badlogic.gdx.math._
 import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 
 import game.Constant
 import game.physics.Player
@@ -102,9 +103,78 @@ class CollisionListener extends ContactListener {
 
 }
 
+class Lifebar(isGrandma: Boolean) {
+
+  val t = if (isGrandma) {
+    "grandma"
+  } else {
+    "grandpa"
+  }
+
+  val sign = if (isGrandma) {
+    1.0f
+  } else {
+    -1.0f
+  }
+
+  val scale = 48.0f
+
+  lazy val atlas = new TextureAtlas(Gdx.files.internal("HP-" + t + ".atlas"))
+
+  lazy val lifebar = {
+    val s = atlas.createSprite("lifebar-background")
+    val w = s.getWidth() / 2.0f
+    val h = s.getHeight() / 2.0f
+    s.setPosition(sign * -5.25f * scale - w, 8.75f * scale - h)
+    s.setScale(0.5f, 0.5f)
+    s
+  }
+
+  lazy val hpIcons = for (i <- 1 to 10) yield {
+    val t = if (i < 10) {
+      "0" + i
+    } else {
+      "10"
+    }
+    val s = atlas.createSprite("HP-" + t)
+    val w = s.getWidth() / 2.0f
+    val h = s.getHeight() / 2.0f
+    s.setPosition(sign * (-3.53f - (i - 1)*(0.384f)) * scale - w, 8.75f * scale - h)
+    s.setScale(0.5f, 0.5f)
+    s
+  }
+
+  lazy val icon = if (isGrandma) {
+    val s = atlas.createSprite("grandma-icon")
+    val w = s.getWidth() / 2.0f
+    val h = s.getHeight() / 2.0f
+    s.setPosition(sign * -7.75f * scale - w, 9f * scale - h)
+    s.setScale(0.5f, 0.5f)
+    s
+  } else {
+    val s = atlas.createSprite("grandpa-icon")
+    val w = s.getWidth() / 2.0f
+    val h = s.getHeight() / 2.0f
+    s.setPosition(sign * -7.65f * scale - w, 8.85f * scale - h)
+    s.setScale(0.5f, 0.5f)
+    s
+  }
+
+  def render(batch: SpriteBatch, lifeLeft: Float) {
+    lifebar.draw(batch)
+    for (i <- 0 until lifeLeft.ceil.toInt) {
+      hpIcons(i).draw(batch)
+    }
+    icon.draw(batch)
+  }
+}
+
 
 class FightScene {
   val world = new World(new Vector2(0, -6), true)
+
+  val grandmaLifebar = new Lifebar(true)
+  val grandpaLifebar = new Lifebar(false)
 
   val collisionListener = new CollisionListener()
   world.setContactListener(collisionListener)
@@ -225,9 +295,16 @@ class FightScene {
     collisionListener.grandmaCollisionIds.clear()
     collisionListener.grandpaCollisionIds.clear()
 
+    if (grandmaDamage > 0) {
+      playerA.takeDamage(grandmaDamage)
+    }
+    if (grandpaDamage > 0) {
+      playerB.takeDamage(grandpaDamage)
+    }
 
-    playerA.update(items)
-    playerB.update(items)
+
+    playerA.update(delta, items)
+    playerB.update(delta, items)
     smokes.foreach { smoke =>
       smoke.update(delta)
     }
@@ -283,6 +360,9 @@ class FightScene {
     items.foreach { item =>
       item.render(batch)
     }
+
+    grandmaLifebar.render(batch, playerA.health)
+    grandpaLifebar.render(batch, playerB.health)
   }
 
   def renderDebug(camera: Camera) {

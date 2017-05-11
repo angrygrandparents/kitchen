@@ -1,0 +1,90 @@
+
+HP-grandma.png
+size: 512,256
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+HP-01
+  rotate: false
+  xy: 389, 206
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-02
+  rotate: false
+  xy: 2, 2
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-03
+  rotate: false
+  xy: 126, 148
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-04
+  rotate: false
+  xy: 428, 206
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-05
+  rotate: false
+  xy: 41, 2
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-06
+  rotate: false
+  xy: 126, 108
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-07
+  rotate: false
+  xy: 165, 148
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-08
+  rotate: false
+  xy: 467, 206
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-09
+  rotate: false
+  xy: 80, 2
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+HP-10
+  rotate: false
+  xy: 126, 68
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+grandma-icon
+  rotate: false
+  xy: 2, 42
+  size: 122, 144
+  orig: 122, 144
+  offset: 0, 0
+  index: -1
+lifebar-background
+  rotate: false
+  xy: 2, 188
+  size: 385, 56
+  orig: 385, 56
+  offset: 0, 0
+  index: -1

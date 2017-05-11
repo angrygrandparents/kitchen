@@ -80,7 +80,7 @@ tasks.withType(ScalaCompile) {
     scalaCompileOptions.useAnt = false
 }
 // Store the parameters you want to pass the texturePacker here...
-// project.ext.texturePacker = [ "assets/smoke/grey-small/", "core/assets/", "smoke-grey" ]
+// project.ext.texturePacker = [ "assets/UI art/HP/grandpa/", "core/assets/", "HP-grandpa" ]
 
 // Import the texture packer
 import com.badlogic.gdx.tools.texturepacker.TexturePacker
