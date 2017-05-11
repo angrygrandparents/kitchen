@@ -18,7 +18,11 @@ import game.physics.CollisionData
 import game.effect.Smoke
 
 class CollisionListener extends ContactListener {
-  val collisionIds = Set[Long]()
+  val neutralCollisionIds = Set[Long]()
+  val grandmaCollisionIds = Set[Long]()
+  val grandmaCritCollisionIds = Set[Long]()
+  val grandpaCollisionIds = Set[Long]()
+  val grandpaCritCollisionIds = Set[Long]()
 
   override def beginContact(contact: Contact) : Unit = {
 
@@ -37,16 +41,56 @@ class CollisionListener extends ContactListener {
     if (userDataA.isDefined) {
       val collisionData = userDataA.get.asInstanceOf[CollisionData]
       if (collisionData.isItem) {
-        // println("Item collided")
-        collisionIds += collisionData.id
+        if (userDataB.isDefined) {
+          val use = userDataB.get.asInstanceOf[CollisionData]
+          if (use.isItem) {
+            neutralCollisionIds += collisionData.id
+          } else {
+            if (use.isGrandma) {
+              if (use.isCritical) {
+                grandmaCritCollisionIds += collisionData.id
+              } else {
+                grandmaCollisionIds += collisionData.id
+              }
+            } else {
+              if (use.isCritical) {
+                grandpaCritCollisionIds += collisionData.id
+              } else {
+                grandpaCollisionIds += collisionData.id
+              }
+            }
+          }
+        } else {
+          neutralCollisionIds += collisionData.id
+        }
       }
     }
 
     if (userDataB.isDefined) {
       val collisionData = userDataB.get.asInstanceOf[CollisionData]
       if (collisionData.isItem) {
-        // println("Item collided")
-        collisionIds += collisionData.id
+        if (userDataA.isDefined) {
+          val use = userDataA.get.asInstanceOf[CollisionData]
+          if (use.isItem) {
+            neutralCollisionIds += collisionData.id
+          } else {
+            if (use.isGrandma) {
+              if (use.isCritical) {
+                grandmaCritCollisionIds += collisionData.id
+              } else {
+                grandmaCollisionIds += collisionData.id
+              }
+            } else {
+              if (use.isCritical) {
+                grandpaCritCollisionIds += collisionData.id
+              } else {
+                grandpaCollisionIds += collisionData.id
+              }
+            }
+          }
+        } else {
+          neutralCollisionIds += collisionData.id
+        }
       }
     }
     // Gdx.app.log("endContact", "between " + fixtureA.toString() + " and " + fixtureB.toString())
@@ -77,8 +121,26 @@ class FightScene {
 
   private var accumulator = 0.0f
 
+  def playGrandmaIsHitSound(isCritical: Boolean) {
+    // TODO
+  }
+
+  def playGrandpaIsHitSound(isCritical: Boolean) {
+    // TODO
+  }
+
+  def playHitOtherSound() {
+    // TODO
+  }
+
+
+
   def update(delta: Float) {
-    collisionListener.collisionIds.foreach { id =>
+    var grandmaDamage = 0.0f
+    var grandpaDamage = 0.0f
+
+
+    collisionListener.neutralCollisionIds.foreach { id =>
       val item = items.find { item =>
         item.body.getUserData().asInstanceOf[CollisionData].id == id
       }
@@ -87,10 +149,69 @@ class FightScene {
         world.destroyBody(item.get.body)
         items -= item.get
         smokes += new Smoke(pos.cpy(), 0)
+        playHitOtherSound()
       }
     }
 
-    collisionListener.collisionIds.clear()
+    collisionListener.grandmaCollisionIds.foreach { id =>
+      val item = items.find { item =>
+        item.body.getUserData().asInstanceOf[CollisionData].id == id
+      }
+      if (item.isDefined) {
+        val pos = item.get.body.getPosition
+        world.destroyBody(item.get.body)
+        items -= item.get
+        smokes += new Smoke(pos.cpy(), 1)
+        grandmaDamage += 1.0f
+        playGrandmaIsHitSound(false)
+      }
+    }
+
+    collisionListener.grandmaCritCollisionIds.foreach { id =>
+      val item = items.find { item =>
+        item.body.getUserData().asInstanceOf[CollisionData].id == id
+      }
+      if (item.isDefined) {
+        val pos = item.get.body.getPosition
+        world.destroyBody(item.get.body)
+        items -= item.get
+        smokes += new Smoke(pos.cpy(), 2)
+        grandmaDamage += 2.0f
+        playGrandmaIsHitSound(true)
+      }
+    }
+
+    collisionListener.grandpaCollisionIds.foreach { id =>
+      val item = items.find { item =>
+        item.body.getUserData().asInstanceOf[CollisionData].id == id
+      }
+      if (item.isDefined) {
+        val pos = item.get.body.getPosition
+        world.destroyBody(item.get.body)
+        items -= item.get
+        smokes += new Smoke(pos.cpy(), 1)
+        grandpaDamage += 1.0f
+        playGrandpaIsHitSound(false)
+      }
+    }
+
+    collisionListener.grandpaCritCollisionIds.foreach { id =>
+      val item = items.find { item =>
+        item.body.getUserData().asInstanceOf[CollisionData].id == id
+      }
+      if (item.isDefined) {
+        val pos = item.get.body.getPosition
+        world.destroyBody(item.get.body)
+        items -= item.get
+        smokes += new Smoke(pos.cpy(), 2)
+        grandpaDamage += 2.0f
+        playGrandpaIsHitSound(true)
+      }
+    }
+
+    collisionListener.neutralCollisionIds.clear()
+    collisionListener.grandmaCollisionIds.clear()
+    collisionListener.grandpaCollisionIds.clear()
 
 
     playerA.update(items)
