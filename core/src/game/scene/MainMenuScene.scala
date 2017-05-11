@@ -41,13 +41,6 @@ class MainMenuScene {
 
   var state = 0
 
-  def disableMenuButtons(t: Boolean) = {
-    playButton.setDisabled(t)
-    tutorialButton.setDisabled(t)
-    creditsButton.setDisabled(t)
-    exitButton.setDisabled(t)
-  }
-
   def render(batch: SpriteBatch) {
     val w = Gdx.graphics.getWidth()
     val h = Gdx.graphics.getHeight()
@@ -57,7 +50,6 @@ class MainMenuScene {
     batch.draw(background, -(width - 480 * ratio) / 2 - 240 * ratio, 0, width, 480, 0, 1, 1, 0)
 
     if (state == 0) {
-      disableMenuButtons(false)
       playButton.render(batch)
       tutorialButton.render(batch)
       creditsButton.render(batch)
@@ -65,21 +57,15 @@ class MainMenuScene {
     } else if (state == 2) {
       val tWidth = 440 * 1833/1033f;
       batch.draw(tutorialBackground, -(tWidth - 480 * ratio) / 2 - 240 * ratio, 20, tWidth, 440, 0, 1, 1, 0)
-      disableMenuButtons(true)
       tutorialBackButton.render(batch)
     } else if (state == 3) {
       val tWidth = 440 * 1066/948f;
       batch.draw(creditsBackground, -(tWidth - 480 * ratio) / 2 - 240 * ratio, 20, tWidth, 440, 0, 1, 1, 0)
-      disableMenuButtons(true)
       tutorialBackButton.render(batch)
     }
   }
 
   def update(delta: Float, camera: Camera) {
-    playButton.update(delta, camera)
-    tutorialButton.update(delta, camera)
-    creditsButton.update(delta, camera)
-    exitButton.update(delta, camera)
     if (state == 2 || state == 3) {
       tutorialBackButton.update(delta, camera)
       if (tutorialBackButton.clicked) {
@@ -87,6 +73,10 @@ class MainMenuScene {
         tutorialBackButton.clicked = false
       }
     } else {
+      playButton.update(delta, camera)
+      tutorialButton.update(delta, camera)
+      creditsButton.update(delta, camera)
+      exitButton.update(delta, camera)
       if (playButton.clicked) {
         state = 1
         playButton.clicked = false

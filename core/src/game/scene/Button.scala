@@ -15,42 +15,40 @@ class Button(atlas: TextureAtlas, id: String, position: Vector2) {
   val clickSprite = atlas.createSprite(id+"-click")
 
   var state = 0
-  var disabled = false
+  
   var clicked = false
+
+  var touched = true
 
   def getMousePosInGameWorld(camera: Camera): Vector3 = {
     camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
   }
 
-  def setDisabled(t: Boolean) = disabled = t
-
   def update(delta: Float, camera: Camera) {
-    if (!disabled) {
-      val w = normalSprite.getWidth() / 48.0f / 2 * 0.4f
-      val h = normalSprite.getHeight() / 48.0f / 2 * 0.4f
+    val w = normalSprite.getWidth() / 48.0f / 2 * 0.4f
+    val h = normalSprite.getHeight() / 48.0f / 2 * 0.4f
 
-      val mousePos = getMousePosInGameWorld(camera)
+    val mousePos = getMousePosInGameWorld(camera)
 
-      val posX = position.x
-      val posY = position.y
+//      val posX = position.x
+    val posY = position.y
 
-      val isX = ((mousePos.x - position.x) / w).abs < 1.0f
-      val isY = ((mousePos.y - position.y) / h).abs < 1.0f
+    val isX = ((mousePos.x - position.x) / w).abs < 1.0f
+    val isY = ((mousePos.y - position.y) / h).abs < 1.0f
 
-      if (isX && isY) {
-        val isTouched = Gdx.input.isTouched()
-        val prevState = state
-        state = if (isTouched) 2 else 1
-        if (prevState == 2 && state == 1) {
-          clicked = true
-          Audio.CLICK.play()
-        }
-        if (prevState != 1 && state == 1) {
-          Audio.HOVER.play()
-        }
-      } else {
-        state = 0
+    if (isX && isY) {
+      val isTouched = Gdx.input.isTouched()
+      val prevState = state
+      state = if (isTouched) 2 else 1
+      if (prevState == 2 && state == 1) {
+        clicked = true
+        Audio.CLICK.play()
       }
+      if (prevState != 1 && state == 1) {
+        Audio.HOVER.play()
+      }
+    } else {
+      state = 0
     }
   }
 

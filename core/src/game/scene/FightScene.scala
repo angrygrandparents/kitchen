@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 
+import com.badlogic.gdx.graphics.Camera
 
 import game.Constant
 import game.Audio
@@ -175,27 +176,28 @@ class Lifebar(isGrandma: Boolean) {
 
 
 class FightScene {
-  val world = new World(new Vector2(0, -6), true)
+  lazy val world = new World(new Vector2(0, -6), true)
 
-  val grandmaLifebar = new Lifebar(true)
-  val grandpaLifebar = new Lifebar(false)
+  lazy val grandmaLifebar = new Lifebar(true)
+  lazy val grandpaLifebar = new Lifebar(false)
 
-  val collisionListener = new CollisionListener()
-  world.setContactListener(collisionListener)
+  lazy val collisionListener = {
+    val c = new CollisionListener()
+    world.setContactListener(c)
+    c
+  }
 
-  val ground = createGround()
-  val playerA = new Player(world, 1, ground)
-  val playerB = new Player(world, 2, ground)
+  lazy val ground = createGround()
+  lazy val playerA = new Player(world, 1, ground)
+  lazy val playerB = new Player(world, 2, ground)
 
   val items = new ArrayBuffer[BodyPart]()
 
   val smokes = new ArrayBuffer[Smoke]()
 
-  // turns on the scene-specific bgm at creation
-  Audio.BGM.setLooping(true)
-  Audio.BGM.play()
+  var firstRender = true
 
-  val debugRenderer = new Box2DDebugRenderer()
+  lazy val debugRenderer = new Box2DDebugRenderer()
 
   private var accumulator = 0.0f
 
@@ -204,6 +206,15 @@ class FightScene {
     t.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest)
     t
   }
+
+  lazy val gameOverImage = {
+    val t = new Texture(Gdx.files.internal("creditsbackground.png"), true)
+    t.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.Linear)
+    t
+  }
+
+  lazy val tutorialatlas = new TextureAtlas(Gdx.files.internal("tutorial.atlas"))
+  lazy val menuButton = new Button(tutorialatlas, "back", new Vector2(0, 1.25f))
 
   def playGrandmaIsHitSound(isCritical: Boolean) {
     if (isCritical) {
@@ -225,7 +236,10 @@ class FightScene {
     Audio.GEN_HIT.play()
   }
 
-  def update(delta: Float) {
+  var goToMenu = false
+
+  def update(delta: Float, camera: Camera) {
+
     var grandmaDamage = 0.0f
     var grandpaDamage = 0.0f
 
@@ -328,6 +342,14 @@ class FightScene {
 
       accumulator -= Constant.TIME_STEP
     }
+
+    if (playerA.health <= 0.0f || playerB.health <= 0.0f) {
+      menuButton.update(delta, camera)
+    }
+    if (menuButton.clicked) {
+      menuButton.clicked = false
+      goToMenu = true
+    }
   }
 
   def createGround(): Body = {
@@ -347,7 +369,6 @@ class FightScene {
     fixtureDef.friction = 0.4f;
     fixtureDef.restitution = 0.6f; // Make it bounce a little bit
     fixtureDef.filter.categoryBits = CollisionCategory.STATIC_MASK;
-    // fixtureDef.filter.maskBits = CollisionCategory.PLAYER_MASK;
 
     groundBody.createFixture(fixtureDef)
 
@@ -355,6 +376,8 @@ class FightScene {
 
     groundBody
   }
+
+  var gameOver = false
 
   def render(batch: SpriteBatch) {
     val w = Gdx.graphics.getWidth()
@@ -364,6 +387,12 @@ class FightScene {
 
     batch.draw(background, -(width - 480 * ratio) / 2 - 240 * ratio, 0, width, 480, 0, 1, 1, 0)
 
+    if (firstRender) {
+      // turns on the (scene-specific) bgm at creation
+      Audio.BGM.setLooping(true)
+      Audio.BGM.play()
+      firstRender = false
+    }
 
     playerA.render(batch)
     playerB.render(batch)
@@ -378,10 +407,28 @@ class FightScene {
 
     grandmaLifebar.render(batch, playerA.health)
     grandpaLifebar.render(batch, playerB.health)
+
+    if (playerA.health <= 0.0f || playerB.health <= 0.0f) {
+      if (!gameOver) {
+        Audio.BGM.stop()
+        Audio.VICTORY.play()
+        gameOver = true
+      }
+      val w = Gdx.graphics.getWidth()
+      val h = Gdx.graphics.getHeight()
+  		val ratio = w / h.toFloat;
+      val width = 480 * 8/4.5f;
+
+      val tWidth = 440 * 1066/948f;
+      batch.draw(gameOverImage, -(tWidth - 480 * ratio) / 2 - 240 * ratio, 20, tWidth, 440, 0, 1, 1, 0)
+      menuButton.render(batch)
+    }
   }
 
   def dispose() : Unit = {
+    Audio.BGM.stop()
 		background.dispose()
+    world.dispose()
 	}
 
   def renderDebug(camera: Camera) {

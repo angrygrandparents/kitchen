@@ -15,7 +15,7 @@ import game.scene.FightScene
 import game.scene.MainMenuScene
 
 class Game extends ApplicationAdapter with InputProcessor {
-  lazy val fightScene = new FightScene()
+  var fightScene = new FightScene()
   lazy val mainMenuScene = new MainMenuScene()
 
 	var gameStarted = false
@@ -51,12 +51,17 @@ class Game extends ApplicationAdapter with InputProcessor {
 
 		if (mainMenuScene.state == 1) {
 			gameStarted = true
+			fightScene.dispose()
+			fightScene = new FightScene()
 			mainMenuScene.state = 0
 		}
 
 
 		if (gameStarted) {
-			fightScene.update(1/60.0f)
+			fightScene.update(1/60.0f, camera)
+			if (fightScene.goToMenu) {
+				gameStarted = false
+			}
 		} else {
 			mainMenuScene.update(1/60.0f, camera)
 		}
