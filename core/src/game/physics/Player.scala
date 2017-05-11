@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import scala.collection.mutable.ArrayBuffer
 
 import game.Input
+import game.Audio
 
 object Player {
   lazy val objectAtlas = new TextureAtlas(Gdx.files.internal("objects.atlas"))
@@ -107,10 +108,6 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
 
   var health = 10.0f
 
-  val grandmaThrowSound = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandma.wav"))
-  val grandpaThrowSound = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandpa.wav"))
-  val throwSound = Gdx.audio.newMusic(Gdx.files.internal("sound/woosh.wav"))
-
   def grabItem() : BodyPart = {
     val lowerArm = body.getBodyPart("leftLowerArm")
     val pos = lowerArm.body.getPosition()
@@ -132,11 +129,11 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
     holding = false
     prepThrow = false
     if (isGrandma) {
-      grandmaThrowSound.play()
+      Audio.GRANDMA_THROW.play()
     } else {
-      grandpaThrowSound.play()
+      Audio.GRANDPA_THROW.play()
     }
-    throwSound.play()
+    Audio.THROW.play()
     val item = body.removeBodyPart("item")
     items += item
   }
@@ -169,7 +166,7 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
       }
     }
 
-    if (health < 0) {
+    if (health <= 0) {
       isInHitstun = true
     }
 

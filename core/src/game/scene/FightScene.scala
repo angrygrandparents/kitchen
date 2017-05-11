@@ -12,6 +12,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 
 import game.Constant
+import game.Audio
 import game.physics.Player
 import game.physics.CollisionCategory
 import game.physics.BodyPart
@@ -187,11 +188,9 @@ class FightScene {
 
   val smokes = new ArrayBuffer[Smoke]()
 
-  val grandpaHitSound = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-grandpa.wav"))
-  val grandmaHitSound = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-grandma.wav"))
-  val grandpaCritHitSound = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-crit-grandpa.wav"))
-  val grandmaCritHitSound = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-crit-grandma.wav"))
-  val genHitSound = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-miss.wav"))
+  // turns on the scene-specific bgm at creation
+  Audio.BGM.setLooping(true)
+  Audio.BGM.play()
 
   val debugRenderer = new Box2DDebugRenderer()
 
@@ -199,22 +198,22 @@ class FightScene {
 
   def playGrandmaIsHitSound(isCritical: Boolean) {
     if (isCritical) {
-      grandmaCritHitSound.play()
+      Audio.GRANDMA_CRIT.play()
     } else {
-      grandmaHitSound.play()
+      Audio.GRANDMA_HIT.play()
     }
   }
 
   def playGrandpaIsHitSound(isCritical: Boolean) {
     if (isCritical) {
-      grandpaCritHitSound.play()
+      Audio.GRANDPA_CRIT.play()
     } else {
-      grandpaHitSound.play()
+      Audio.GRANDPA_HIT.play()
     }
   }
 
   def playHitOtherSound() {
-    genHitSound.play()
+    Audio.GEN_HIT.play()
   }
 
   def update(delta: Float) {
@@ -320,7 +319,6 @@ class FightScene {
 
       accumulator -= Constant.TIME_STEP
     }
-
   }
 
   def createGround(): Body = {
