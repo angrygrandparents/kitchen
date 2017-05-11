@@ -60,7 +60,7 @@ class CollisionListener extends ContactListener {
 
 
 class FightScene {
-  val world = new World(new Vector2(0, -10), true)
+  val world = new World(new Vector2(0, -6), true)
 
   val collisionListener = new CollisionListener()
   world.setContactListener(collisionListener)
@@ -86,7 +86,7 @@ class FightScene {
         val pos = item.get.body.getPosition
         world.destroyBody(item.get.body)
         items -= item.get
-        smokes += new Smoke(pos, 0)
+        smokes += new Smoke(pos.cpy(), 0)
       }
     }
 

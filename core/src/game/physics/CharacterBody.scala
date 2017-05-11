@@ -63,13 +63,21 @@ class CharacterBody(world: World) {
     part
   }
 
+
+
   def setAngleTarget(jointId: String, angleTarget: Float, maxTorque: Float = 4.0f, gain: Float = 2.0f) : Unit = {
     var joint = joints(jointId)
 
     joint.enableMotor(true)
     joint.setMaxMotorTorque(maxTorque)
 
-    val angleError = joint.getJointAngle() - angleTarget
+    var angleError = joint.getJointAngle() - angleTarget
+    while (angleError > Math.PI) {
+      angleError -= 2*Math.PI.toFloat
+    }
+    while (angleError < -Math.PI) {
+      angleError += 2*Math.PI.toFloat
+    }
 
     joint.setMotorSpeed(-gain * angleError)
   }
