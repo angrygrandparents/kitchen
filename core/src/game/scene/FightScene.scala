@@ -125,7 +125,7 @@ class Lifebar(isGrandma: Boolean) {
     val s = atlas.createSprite("lifebar-background")
     val w = s.getWidth() / 2.0f
     val h = s.getHeight() / 2.0f
-    s.setPosition(sign * -5.25f * scale - w, 8.75f * scale - h)
+    s.setPosition(sign * -4.75f * scale - w, 8.75f * scale - h)
     s.setScale(0.5f, 0.5f)
     s
   }
@@ -139,7 +139,7 @@ class Lifebar(isGrandma: Boolean) {
     val s = atlas.createSprite("HP-" + t)
     val w = s.getWidth() / 2.0f
     val h = s.getHeight() / 2.0f
-    s.setPosition(sign * (-3.53f - (i - 1)*(0.384f)) * scale - w, 8.75f * scale - h)
+    s.setPosition(sign * (-3.03f - (i - 1)*(0.384f)) * scale - w, 8.75f * scale - h)
     s.setScale(0.5f, 0.5f)
     s
   }
@@ -148,14 +148,14 @@ class Lifebar(isGrandma: Boolean) {
     val s = atlas.createSprite("grandma-icon")
     val w = s.getWidth() / 2.0f
     val h = s.getHeight() / 2.0f
-    s.setPosition(sign * -7.75f * scale - w, 9f * scale - h)
+    s.setPosition(sign * -7.25f * scale - w, 9f * scale - h)
     s.setScale(0.5f, 0.5f)
     s
   } else {
     val s = atlas.createSprite("grandpa-icon")
     val w = s.getWidth() / 2.0f
     val h = s.getHeight() / 2.0f
-    s.setPosition(sign * -7.65f * scale - w, 8.85f * scale - h)
+    s.setPosition(sign * -7.25f * scale - w, 8.85f * scale - h)
     s.setScale(0.5f, 0.5f)
     s
   }
@@ -163,7 +163,7 @@ class Lifebar(isGrandma: Boolean) {
   def render(batch: SpriteBatch, lifeLeft: Float) {
     lifebar.draw(batch)
     for (i <- 0 until lifeLeft.ceil.toInt) {
-      hpIcons(i).draw(batch)
+      hpIcons(9 - i).draw(batch)
     }
     icon.draw(batch)
   }
