@@ -8,8 +8,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.graphics.Camera
 
-
-
 class MainMenuScene {
   lazy val background = {
     val t = new Texture(Gdx.files.internal("menubackground.png"), true)

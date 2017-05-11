@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.MathUtils
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -16,6 +17,50 @@ import game.Audio
 
 object Player {
   lazy val objectAtlas = new TextureAtlas(Gdx.files.internal("objects.atlas"))
+}
+
+class ItemDispenser(offset: Vector2, isGrandma: Boolean, world: World) {
+  val atlas = Player.objectAtlas
+
+  var item: Option[BodyPart] = None
+
+  var timer = 0.0f
+
+  def update(delta: Float) {
+    if (item.isEmpty) {
+      timer += delta
+      if (timer > 2.0f) {
+        val r = MathUtils.random(0, 7)
+        item = r match {
+          case 0 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-01", world, offset, new Vector2(0.7f, 0.25f), new Vector2(0, 0), 20, 0.1f, true, true)) // Rolling Pin
+          case 1 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-02", world, offset, new Vector2(0.9f, 0.15f), new Vector2(0, 0), 20, 0.1f, true, true)) // Plumbers thing
+          case 2 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-03", world, offset, new Vector2(0.35f, 0.35f), new Vector2(0, 0), 20, 0.1f, true, true)) // Donut
+          case 3 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-04", world, offset, new Vector2(0.8f, 0.35f), new Vector2(0, 0), 20, 0.1f, true, true)) // Pineapple
+          case 4 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-05", world, offset, new Vector2(0.55f, 0.15f), new Vector2(0, 0), 20, 0.1f, true, true)) // Carrot
+          case 5 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-06", world, offset, new Vector2(1.2f, 0.25f), new Vector2(0, 0), 20, 0.1f, true, true)) // Guitar
+          case 6 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-07", world, offset, new Vector2(0.6f, 0.5f), new Vector2(0, 0), 20, 0.1f, true, true)) // Kettle
+          case 7 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-08", world, offset, new Vector2(1.3f, 0.8f), new Vector2(0, 0), 20, 0.1f, true, true)) // Microwave
+        }
+        item.get.body.setActive(false)
+        timer = 0.0f
+      }
+    }
+  }
+
+  def render(batch: SpriteBatch) {
+    if (item.isDefined) {
+      item.get.render(batch)
+    }
+  }
+
+  def hasItem : Boolean = item.isDefined
+
+  def dispense() : BodyPart = {
+    val i = item.get
+    item = None
+    i
+  }
+
 }
 
 
@@ -31,12 +76,14 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
 
   val isGrandma = playerNumber == 1
 
+  val sign = if (playerNumber == 1) 1.0f else -1.0f
+
+  val itemDispenser = new ItemDispenser(new Vector2(-6.25f * sign, 5.0f), isGrandma, world)
+
   val MAX_HITSTUN = 1.2f
 
   var hitstunTimer = 0.0f
   var isInHitstun = false
-
-  val sign = if (playerNumber == 1) 1.0f else -1.0f
 
   val body = {
     val body = new CharacterBody(world)
@@ -108,7 +155,7 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
 
   var health = 10.0f
 
-  def grabItem() : BodyPart = {
+  def grabItem() : Unit = {
     val lowerArm = body.getBodyPart("leftLowerArm")
     val pos = lowerArm.body.getPosition()
     val angle = lowerArm.body.getAngle() / Math.PI.toFloat * 180
@@ -116,12 +163,20 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
     val off = (new Vector2(sign * -0.6f, 0)).rotate(angle)
     off.add(pos)
 
-    val part = new BodyPart(isGrandma, Player.objectAtlas, "objects-01", world, off, new Vector2(0.8f, 0.35f), new Vector2(0, 0), 20, 0.1f, true, true)
+    if (off.cpy().sub(new Vector2(-6.25f * sign, 5.0f)).len2 < 4.0f) {
 
-    body.addBodyPart("item", part)
-    body.connect("item", "leftLowerArm", "item", off)
+      if (itemDispenser.hasItem) {
+        val part = itemDispenser.dispense() //new BodyPart(isGrandma, Player.objectAtlas, "objects-01", world, off, new Vector2(0.8f, 0.35f), new Vector2(0, 0), 20, 0.1f, true, true)
 
-    part
+        part.body.setActive(true)
+
+        part.body.setTransform(off.x, off.y, 0)
+
+        body.addBodyPart("item", part)
+        body.connect("item", "leftLowerArm", "item", off)
+        holding = true
+      }
+    }
   }
 
     def releaseItem(items: ArrayBuffer[BodyPart]) : Unit = {
@@ -147,6 +202,7 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
   }
 
   def update(delta: Float, items: ArrayBuffer[BodyPart]) : Unit = {
+    itemDispenser.update(delta)
     body.setAngleTarget("neck", 0, 80.0f)
     body.setAngleTarget("ground", 0, 40.0f)
     body.setAngleTarget("leftElbow", sign * Math.PI.toFloat / 6)
@@ -211,7 +267,6 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
       if (leanBack) {
         prepThrow = false
         if (!holding) {
-          holding = true
           grabItem()
         }
         body.setAngleTarget("leftShoulder", sign * Math.PI.toFloat / 8, 8.0f)
@@ -259,6 +314,7 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
   }
 
   def render(batch: SpriteBatch) : Unit = {
+    itemDispenser.render(batch)
     body.render(batch)
   }
 

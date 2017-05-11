@@ -6,57 +6,57 @@ filter: MipMapLinearLinear,Linear
 repeat: none
 objects-01
   rotate: false
-  xy: 402, 246
-  size: 336, 71
-  orig: 336, 71
+  xy: 322, 252
+  size: 269, 57
+  orig: 269, 57
   offset: 0, 0
   index: -1
 objects-02
   rotate: false
-  xy: 2, 63
-  size: 327, 129
-  orig: 327, 129
+  xy: 2, 105
+  size: 261, 103
+  orig: 261, 103
   offset: 0, 0
   index: -1
 objects-03
   rotate: false
-  xy: 861, 363
-  size: 135, 119
-  orig: 135, 119
+  xy: 859, 253
+  size: 108, 95
+  orig: 108, 95
   offset: 0, 0
   index: -1
 objects-04
   rotate: false
-  xy: 402, 117
-  size: 223, 127
-  orig: 223, 127
+  xy: 2, 2
+  size: 179, 101
+  orig: 179, 101
   offset: 0, 0
   index: -1
 objects-05
   rotate: false
-  xy: 331, 2
-  size: 195, 113
-  orig: 195, 113
+  xy: 859, 350
+  size: 156, 91
+  orig: 156, 91
   offset: 0, 0
   index: -1
 objects-06
   rotate: false
-  xy: 402, 319
-  size: 457, 163
-  orig: 457, 163
+  xy: 322, 311
+  size: 365, 130
+  orig: 365, 130
   offset: 0, 0
   index: -1
 objects-07
   rotate: false
-  xy: 627, 23
-  size: 210, 221
-  orig: 210, 221
+  xy: 689, 265
+  size: 168, 176
+  orig: 168, 176
   offset: 0, 0
   index: -1
 objects-08
   rotate: false
-  xy: 2, 194
-  size: 398, 288
-  orig: 398, 288
+  xy: 2, 210
+  size: 318, 231
+  orig: 318, 231
   offset: 0, 0
   index: -1
