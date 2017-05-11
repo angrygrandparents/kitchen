@@ -17,6 +17,9 @@ object Audio {
   val CLICK = Gdx.audio.newMusic(Gdx.files.internal("sound/btn-click.wav"))
   val HOVER = Gdx.audio.newMusic(Gdx.files.internal("sound/btn-hover.wav"))
 
+  // make the button hover sound a little less intense
+  HOVER.setVolume(0.55f)
+
   // I wish I could just foreach these
   def disposeAll() = {
     BGM_MENU.dispose()
