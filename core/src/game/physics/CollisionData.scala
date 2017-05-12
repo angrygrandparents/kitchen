@@ -9,6 +9,6 @@ object CollisionData {
   }
 }
 
-case class CollisionData(isItem: Boolean, isGrandma: Boolean = false, isCritical: Boolean = false) {
+case class CollisionData(isItem: Boolean, isGrandma: Boolean = false, isCritical: Boolean = false, isCane: Boolean = false) {
   val id = CollisionData.nextId()
 }

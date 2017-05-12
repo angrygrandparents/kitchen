@@ -66,6 +66,8 @@ class BodyPart(
       } else {
         body.setUserData(CollisionData(false, isGrandma, spriteId == "head"))
       }
+    } else {
+      body.setUserData(CollisionData(false, false, false, true))
     }
 
     shape.dispose()

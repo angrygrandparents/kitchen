@@ -52,7 +52,9 @@ class CollisionListener extends ContactListener {
           if (use.isItem) {
             neutralCollisionIds += collisionData.id
           } else {
-            if (use.isGrandma) {
+            if (use.isCane) {
+
+            } else if (use.isGrandma) {
               if (use.isCritical) {
                 grandmaCritCollisionIds += collisionData.id
               } else {
@@ -80,7 +82,9 @@ class CollisionListener extends ContactListener {
           if (use.isItem) {
             neutralCollisionIds += collisionData.id
           } else {
-            if (use.isGrandma) {
+            if (use.isCane) {
+
+            } else if (use.isGrandma) {
               if (use.isCritical) {
                 grandmaCritCollisionIds += collisionData.id
               } else {
