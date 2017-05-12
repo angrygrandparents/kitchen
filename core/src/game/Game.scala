@@ -67,9 +67,9 @@ class Game extends ApplicationAdapter with InputProcessor {
 					fightScene = new FightScene()
 				} else {
 					gameStarted = false
+          Audio.BGM_MENU.setLooping(true)
+          Audio.BGM_MENU.play()
 				}
-        Audio.BGM_MENU.setLooping(true)
-        Audio.BGM_MENU.play()
 			}
 		} else {
 			mainMenuScene.update(1/60.0f, camera)
