@@ -30,7 +30,7 @@ class ItemDispenser(offset: Vector2, isGrandma: Boolean, world: World) {
     if (item.isEmpty) {
       timer += delta
       if (timer > 2.0f) {
-        val r = MathUtils.random(0, 7)
+        val r = MathUtils.random(0, 6)
         item = r match {
           case 0 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-01", world, offset, new Vector2(0.7f, 0.25f), new Vector2(0, 0), 20, 0.1f, true, true)) // Rolling Pin
           case 1 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-02", world, offset, new Vector2(0.9f, 0.15f), new Vector2(0, 0), 20, 0.1f, true, true)) // Plumbers thing
