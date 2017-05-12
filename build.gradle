@@ -3,11 +3,14 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://mini2dx.org/maven/content/repositories/thirdparty" }
+        maven { url "https://mini2dx.org/maven/content/repositories/releases" }
         jcenter()
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath "com.badlogicgames.gdx:gdx-tools:1.9.5"
+        classpath group: 'org.mini2Dx', name: 'parcl', version: '1.1.0'
     }
 }
 

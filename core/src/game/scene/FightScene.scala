@@ -50,7 +50,7 @@ class CollisionListener extends ContactListener {
         if (userDataB.isDefined) {
           val use = userDataB.get.asInstanceOf[CollisionData]
           if (use.isItem) {
-            neutralCollisionIds += collisionData.id
+            // neutralCollisionIds += collisionData.id
           } else {
             if (use.isCane) {
 
@@ -80,7 +80,7 @@ class CollisionListener extends ContactListener {
         if (userDataA.isDefined) {
           val use = userDataA.get.asInstanceOf[CollisionData]
           if (use.isItem) {
-            neutralCollisionIds += collisionData.id
+            // neutralCollisionIds += collisionData.id
           } else {
             if (use.isCane) {
 
