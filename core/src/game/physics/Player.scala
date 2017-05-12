@@ -39,7 +39,7 @@ class ItemDispenser(offset: Vector2, isGrandma: Boolean, world: World) {
           case 4 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-05", world, offset, new Vector2(0.55f, 0.15f), new Vector2(0, 0), 20, 0.1f, true, true)) // Carrot
           case 5 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-06", world, offset, new Vector2(1.2f, 0.25f), new Vector2(0, 0), 20, 0.1f, true, true)) // Guitar
           case 6 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-07", world, offset, new Vector2(0.6f, 0.5f), new Vector2(0, 0), 20, 0.1f, true, true)) // Kettle
-          case 7 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-08", world, offset, new Vector2(1.3f, 0.8f), new Vector2(0, 0), 20, 0.1f, true, true)) // Microwave
+          case 7 => Some(new BodyPart(isGrandma, Player.objectAtlas, "objects-08", world, offset, new Vector2(1.3f, 0.8f), new Vector2(0, 0), 20, 0.07f, true, true)) // Microwave
         }
         item.get.body.setActive(false)
         timer = 0.0f
