@@ -213,6 +213,26 @@ class FightScene {
     t
   }
 
+  lazy val gameOverGrandma = {
+    val t = new Texture(Gdx.files.internal("grandma win.png"), true)
+    t.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.Linear)
+    t
+  }
+
+  lazy val gameOverGrandpa = {
+    val t = new Texture(Gdx.files.internal("grandpa win.png"), true)
+    t.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.Linear)
+    t
+  }
+
+  lazy val gameOverAtlas = new TextureAtlas(Gdx.files.internal("finalscenebuttons.atlas"))
+
+  lazy val backGrandma = new Button(gameOverAtlas, "back to main menu", new Vector2(1.5f, 5.75f))
+  lazy val backGrandpa = new Button(gameOverAtlas, "back to main menu", new Vector2(-1.75f, 5.75f))
+
+  lazy val playAgainGrandma = new Button(gameOverAtlas, "play again", new Vector2(1.5f, 4.25f))
+  lazy val playAgainGrandpa = new Button(gameOverAtlas, "play again", new Vector2(-1.75f, 4.25f))
+
   lazy val tutorialatlas = new TextureAtlas(Gdx.files.internal("tutorial.atlas"))
   lazy val menuButton = new Button(tutorialatlas, "back", new Vector2(0, 1.25f))
 
@@ -237,6 +257,7 @@ class FightScene {
   }
 
   var goToMenu = false
+  var playAgain = false
 
   def update(delta: Float, camera: Camera) {
 
@@ -345,10 +366,24 @@ class FightScene {
 
     if (playerA.health <= 0.0f || playerB.health <= 0.0f) {
       menuButton.update(delta, camera)
+      if (playerA.health <= 0.0f) {
+        backGrandpa.update(delta, camera)
+        playAgainGrandpa.update(delta, camera)
+      } else {
+        backGrandma.update(delta, camera)
+        playAgainGrandma.update(delta, camera)
+      }
     }
-    if (menuButton.clicked) {
-      menuButton.clicked = false
+    if (backGrandpa.clicked || backGrandma.clicked) {
+      backGrandpa.clicked = false
+      backGrandma.clicked = false
       goToMenu = true
+    }
+    if (playAgainGrandpa.clicked || playAgainGrandma.clicked) {
+      playAgainGrandpa.clicked = false
+      playAgainGrandma.clicked = false
+      goToMenu = true
+      playAgain = true
     }
   }
 
@@ -419,9 +454,16 @@ class FightScene {
   		val ratio = w / h.toFloat;
       val width = 480 * 8/4.5f;
 
-      val tWidth = 440 * 1066/948f;
-      batch.draw(gameOverImage, -(tWidth - 480 * ratio) / 2 - 240 * ratio, 20, tWidth, 440, 0, 1, 1, 0)
-      menuButton.render(batch)
+      val tWidth = 240 * 1289/689f;
+      if (playerA.health <= 0.0f) {
+        batch.draw(gameOverGrandpa, -(tWidth - 480 * ratio) / 2 - 240 * ratio, 120, tWidth, 240, 0, 1, 1, 0)
+        backGrandpa.render(batch)
+        playAgainGrandpa.render(batch)
+      } else {
+        batch.draw(gameOverGrandma, -(tWidth - 480 * ratio) / 2 - 240 * ratio, 120, tWidth, 240, 0, 1, 1, 0)
+        backGrandma.render(batch)
+        playAgainGrandma.render(batch)
+      }
     }
   }
 

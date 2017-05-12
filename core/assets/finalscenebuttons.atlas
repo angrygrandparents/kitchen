@@ -1,0 +1,48 @@
+
+finalscenebuttons.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+back to main menu-click
+  rotate: false
+  xy: 2, 208
+  size: 538, 101
+  orig: 538, 101
+  offset: 0, 0
+  index: -1
+back to main menu-normal
+  rotate: false
+  xy: 2, 105
+  size: 538, 101
+  orig: 538, 101
+  offset: 0, 0
+  index: -1
+back to main menu-select
+  rotate: false
+  xy: 2, 2
+  size: 538, 101
+  orig: 538, 101
+  offset: 0, 0
+  index: -1
+play again-click
+  rotate: false
+  xy: 2, 523
+  size: 541, 104
+  orig: 541, 104
+  offset: 0, 0
+  index: -1
+play again-normal
+  rotate: false
+  xy: 2, 417
+  size: 541, 104
+  orig: 541, 104
+  offset: 0, 0
+  index: -1
+play again-select
+  rotate: false
+  xy: 2, 311
+  size: 541, 104
+  orig: 541, 104
+  offset: 0, 0
+  index: -1

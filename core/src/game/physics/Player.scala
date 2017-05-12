@@ -279,10 +279,13 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
         body.setAngleTarget("cane", sign * -Math.PI.toFloat / 4, 20.0f)
 
       } else if (leanForward) {
+        if (!holding) {
+          grabItem()
+        }
         if (holding) {
           prepThrow = true
         }
-        body.setAngleTarget("leftShoulder", sign * Math.PI.toFloat, 6.0f, 2.0f)
+        body.setAngleTarget("leftShoulder", 5 * sign * Math.PI.toFloat / 6, 6.0f, 2.0f)
         body.setAngleTarget("leftElbow", 0, 3.0f)
         body.setAngleTarget("leftHip", sign * Math.PI.toFloat / 6, 30.0f, 8.0f)
         body.setAngleTarget("rightHip", sign * 0, 20.0f)
