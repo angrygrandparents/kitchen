@@ -1,0 +1,17 @@
+{
+    "platform": "mac",
+    "jdk": "/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk",
+    "executable": "game",
+    "classpath": [
+        "desktop/build/libs/desktop-1.0.jar"
+    ],
+    "mainclass": "game.desktop.DesktopLauncher",
+    "vmargs": [
+    ],
+    "resources": [
+
+    ],
+    "minimizejre": "soft",
+    "output": "Elder House.app",
+    "verbose": true
+}

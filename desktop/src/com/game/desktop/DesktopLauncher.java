@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.useHDPI = true;
 		config.width = 1600;
 		config.height = 900;
+		config.title = "Elder House";
 		new LwjglApplication(new Game(), config);
 	}
 }

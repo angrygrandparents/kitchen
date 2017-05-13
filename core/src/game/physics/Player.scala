@@ -179,7 +179,7 @@ class Player(world: World, playerNumber: Int, groundBody: Body) {
     }
   }
 
-    def releaseItem(items: ArrayBuffer[BodyPart]) : Unit = {
+  def releaseItem(items: ArrayBuffer[BodyPart]) : Unit = {
     body.removeJoint("item")
     holding = false
     prepThrow = false

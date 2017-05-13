@@ -3,19 +3,19 @@ package game
 import com.badlogic.gdx.Gdx
 
 object Audio {
-  val BGM_MENU = Gdx.audio.newMusic(Gdx.files.internal("sound/bgm-menu.mp3"))
-  val BGM = Gdx.audio.newMusic(Gdx.files.internal("sound/bgm-twist.mp3"))
-  val GRANDPA_HIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-grandpa.wav"))
-  val GRANDMA_HIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-grandma.wav"))
-  val GRANDPA_CRIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-crit-grandpa.wav"))
-  val GRANDMA_CRIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-crit-grandma.wav"))
-  val GEN_HIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-miss.wav"))
-  val GRANDPA_THROW = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandpa.wav"))
-  val GRANDMA_THROW = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandma.wav"))
-  val THROW = Gdx.audio.newMusic(Gdx.files.internal("sound/woosh.wav"))
-  val VICTORY = Gdx.audio.newMusic(Gdx.files.internal("sound/trumpet.wav"))
-  val CLICK = Gdx.audio.newMusic(Gdx.files.internal("sound/btn-click.wav"))
-  val HOVER = Gdx.audio.newMusic(Gdx.files.internal("sound/btn-hover.wav"))
+  lazy val BGM_MENU = Gdx.audio.newMusic(Gdx.files.internal("sound/bgm-menu.mp3"))
+  lazy val BGM = Gdx.audio.newMusic(Gdx.files.internal("sound/bgm-twist.mp3"))
+  lazy val GRANDPA_HIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-grandpa.mp3"))
+  lazy val GRANDMA_HIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-grandma.mp3"))
+  lazy val GRANDPA_CRIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-crit-grandpa.mp3"))
+  lazy val GRANDMA_CRIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-crit-grandma.mp3"))
+  lazy val GEN_HIT = Gdx.audio.newMusic(Gdx.files.internal("sound/hit-miss.mp3"))
+  lazy val GRANDPA_THROW = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandpa.mp3"))
+  lazy val GRANDMA_THROW = Gdx.audio.newMusic(Gdx.files.internal("sound/throw-grandma.mp3"))
+  lazy val THROW = Gdx.audio.newMusic(Gdx.files.internal("sound/woosh.mp3"))
+  lazy val VICTORY = Gdx.audio.newMusic(Gdx.files.internal("sound/trumpet.mp3"))
+  lazy val CLICK = Gdx.audio.newMusic(Gdx.files.internal("sound/btn-click.wav"))
+  lazy val HOVER = Gdx.audio.newMusic(Gdx.files.internal("sound/btn-hover.wav"))
 
   // make the button hover sound a little less intense
   HOVER.setVolume(0.55f)
