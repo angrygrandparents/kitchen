@@ -1,0 +1,16 @@
+{
+    "platform": "windows32",
+    "jdk": "temp",
+    "executable": "Elder House",
+    "classpath": [
+        "desktop/build/libs/desktop-1.0.jar"
+    ],
+    "mainclass": "game.desktop.DesktopLauncher",
+    "vmargs": [
+    ],
+    "resources": [
+
+    ],
+    "minimizejre": "soft",
+    "output": "out-win32"
+}
